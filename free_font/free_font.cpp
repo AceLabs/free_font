@@ -314,22 +314,3 @@ public:
 	}
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	Canvas *v = new Canvas(640, 480);
-	Atlas *atlas = new Atlas("C:\\_c\\c_lib\\lib\\arial.ttf");
-
-	atlas->load(26);
-
-	printf("atlas width %i\n", atlas->atlasWidth);
-
-	//v->draw("The Quick Brown Fox Jumped Over the Lazy Dog!", 50, 100, atlas);
-	v->draw("The Quick Brown Fox Jumped Over The Lazy Dog...", 50, 100, atlas);
-
-	v->toFile("c:\\temp\\cv.data");
-
-	delete atlas;
-	delete v;
-
-	return 1;
-}

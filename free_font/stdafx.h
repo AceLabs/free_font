@@ -5,15 +5,21 @@
 
 #pragma once
 
+#define _CRT_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS
+
 #include "targetver.h"
 
+#include <iostream>
 #include <stdio.h>
 #include <tchar.h>
 
 #include <windows.h>
+#include <windowsx.h>
+#include <windef.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-
-// TODO: reference additional headers your program requires here
+#define GLEW_STATIC 
+#include "GL/glew.h"
