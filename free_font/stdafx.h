@@ -13,6 +13,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <tchar.h>
+#include <cstring>
 
 #include <windows.h>
 #include <windowsx.h>

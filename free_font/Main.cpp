@@ -3,10 +3,16 @@
 
 #include "WinOs/WinOs.h"
 #include "Xel/Xel.h"
+#include "FreeFont.h"
 
 #include "Callback.h"
 
 void Init() {
+	Atlas *atlas = new Atlas("C:\\_c\\c_lib\\lib\\arial.ttf");
+	atlas->load(26);
+	printf("atlas width %i\n", atlas->atlasWidth);
+
+
 }
 
 void Uninit() {
