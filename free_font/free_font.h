@@ -17,6 +17,8 @@ public:
 	}
 
 	~AceType() {
+		printf("~ freeing face, library\n");
+
 		FT_Done_Face(face);
 		FT_Done_FreeType(library);
 	}
@@ -39,7 +41,7 @@ public:
 class CharAtlas {
 public:
 	int width, height;
-	char* buffer;
+	unsigned char* buffer;
 
 	CharAtlas(FT_Bitmap *bitmap) {
 		width = bitmap->width;
@@ -47,9 +49,13 @@ public:
 
 		unsigned int size = width * height;
 
-		buffer = new char[size];
+		buffer = new unsigned char[size];
 
 		std::memcpy(buffer, bitmap->buffer, size);
+	}
+
+	~CharAtlas() {
+		delete[] buffer;
 	}
 };
 
@@ -67,7 +73,7 @@ public:
 	int charBitmapTop[128];
 	int charBitmapLeft[128];
 
-	char* buffer;
+	unsigned char* buffer;
 	AceType* ace;
 
 private:
@@ -106,13 +112,15 @@ public:
 
 	~Atlas() {
 		for (int i = 0; i<charCount; i++) {
-			if (charatlases[i]) delete charatlases[i];
+			if (charatlases[i]) delete charatlases[i]; 
+			
 		}
 
 		delete[] charatlases;
 
-		if (buffer)
+		if (buffer) {
 			delete[] buffer;
+		}
 
 		delete ace;
 	}
@@ -155,7 +163,7 @@ private:
 		return max;
 	}
 
-	void copy(CharAtlas * charatlas, char* buffer, int bufferWidth, int startX, int height) {
+	void copy(CharAtlas * charatlas, unsigned char* buffer, int bufferWidth, int startX, int height) {
 		for (int y = 0; y<height; y++) {
 			for (int x = 0; x<charatlas->width; x++) {
 				int bufferMem = (startX + x) + y * bufferWidth;
@@ -176,7 +184,7 @@ private:
 	void allocate() {
 		atlasHeight = getMaxHeight();
 
-		buffer = new char[atlasWidth * atlasHeight];
+		buffer = new unsigned char[atlasWidth * atlasHeight];
 		memset(buffer, 0, atlasWidth * atlasHeight);
 
 		int x = 0;
@@ -203,6 +211,7 @@ private:
 
 class CoreDraw {
 public:
+	// for when rendering to buffer
 	void core(char* str, int x, int y, Atlas* atlas, int* coords) {
 		int len = strlen(str);
 
@@ -226,6 +235,43 @@ public:
 			int a = penX + nudgeX, b = penY;
 			coords[index++] = a;
 			coords[index++] = b;
+
+			if (i < len - 1) {
+				penX += atlas->getKerning(c, str[i + 1]) + atlas->charAdvance[c];
+			}
+		}
+	}
+
+	// for when rendering to texture
+	void core2(char* str, int x, int y, Atlas* atlas, int* coords, char phantomChar) {
+		int len = strlen(str);
+
+		int index = 0;
+
+		int penX = x, penY;
+
+		if (len>0 && phantomChar != '\0') {
+			penX += atlas->getKerning(phantomChar, str[0]) + atlas->charAdvance[phantomChar];
+		}
+
+		for (int i = 0; i < len; i++) {
+			char c = str[i];
+
+			if (c == ' ') {
+				index += 2;
+			}
+			else {
+
+				// if ortho is ever flipped vertically where 0,0 is at bottom-left, then use this formula
+				//penY = y + atlas->charBitmapTop[c] - atlas->atlasHeight;
+				penY = y - atlas->charBitmapTop[c];
+
+				int nudgeX = atlas->charBitmapLeft[c];
+
+				int a = penX + nudgeX, b = penY;
+				coords[index++] = a;
+				coords[index++] = b;
+			}
 
 			if (i < len - 1) {
 				penX += atlas->getKerning(c, str[i + 1]) + atlas->charAdvance[c];

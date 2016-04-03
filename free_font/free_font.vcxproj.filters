@@ -19,14 +19,14 @@
     <ClInclude Include="Callback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FreeFont.h">
+    <ClInclude Include="free_font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="free_font.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Callbacks.cpp" />
+    <ClCompile Include="free_font.cpp" />
   </ItemGroup>
 </Project>
