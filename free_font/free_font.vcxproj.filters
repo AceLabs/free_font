@@ -5,6 +5,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="free_font">
+      <UniqueIdentifier>{52537fa6-2011-41cb-9c17-59d4c8195688}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -19,8 +22,8 @@
     <ClInclude Include="Callback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="free_font.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="free_font\free_font.h">
+      <Filter>free_font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
